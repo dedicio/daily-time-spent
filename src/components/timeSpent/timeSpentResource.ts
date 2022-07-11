@@ -12,11 +12,15 @@ export default class TimeSpentResource {
     return this.api.get('/')
   }
 
-  public createTimeSpent = (body: {}): Promise<TimeSpent> => {
-    return this.api.post('/', body)
+  public getTimeSpentOpenToday = (): Promise<TimeSpent> => {
+    return this.api.get('/open-today')
   }
 
-  public updateTimeSpent = (body: {}): Promise<TimeSpent> => {
-    return this.api.post('/', body)
+  public createTimeSpent = (): Promise<TimeSpent> => {
+    return this.api.post('/start', {})
+  }
+
+  public updateTimeSpent = (timeSpentId: string): Promise<TimeSpent> => {
+    return this.api.patch(`/${timeSpentId}/stop`, {})
   }
 }

@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react'
-import { TimeSpent } from './timeSpent.type'
-import TimeSpentResource from './timeSpentResource'
+import { format } from 'date-fns'
 
-function CurrentTime() {
-  const api = new TimeSpentResource()
-  const [times, setTimes] = useState<TimeSpent[]>([])
+const formatTime = (date: string | undefined) => {
+  return date ? format(new Date(date), 'HH:mm') : null
+}
 
-  useEffect(() => {
-    api.getTimeSpents().then(data => setTimes(data))
-  }, [])
+type CurrentTimeProps = {
+  timeStarted?: string,
+}
 
-  return (
-    <div className='text-2xl mt-10'>
-      You started your time at
-      <div className='text-4xl'>13:32</div>
-      {times.map((time,index) =>
-        <li key={index}>{time.startedAt}</li>
-      )}
-    </div>
-  )
+const CurrentTime: React.FC<CurrentTimeProps> = ({
+  timeStarted
+}) => {
+  if (timeStarted)
+    return (
+      <div className='text-2xl mt-10'>
+        <div>You started your time at</div> 
+        <div className='text-4xl'>{formatTime(timeStarted)}</div>
+      </div>
+    )
+  return null
+  
 }
 
 export default CurrentTime
