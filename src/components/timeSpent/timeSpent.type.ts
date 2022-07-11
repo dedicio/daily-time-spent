@@ -1,5 +1,5 @@
 export type TimeSpent = {
-  _id?: string,
+  _id: string,
   startedAt?: string,
   finishedAt?: string,
 }
