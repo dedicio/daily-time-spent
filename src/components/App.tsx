@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Button from './common/Button'
 import CurrentTime from './timeSpent/CurrentTime'
 import { TimeSpent } from './timeSpent/timeSpent.type'
+import TimeSpentList from './timeSpent/TimeSpentList'
 import TimeSpentResource from './timeSpent/timeSpentResource'
 
 
@@ -32,6 +33,7 @@ function App() {
           <Button clickAction={retrieve} isStarted={!!openTime} />
         </div>
         <CurrentTime timeStarted={openTime?.startedAt} />
+        <TimeSpentList />
       </div>
     </div>
   )
