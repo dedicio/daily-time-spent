@@ -1,22 +1,29 @@
 import { useEffect, useState } from 'react'
-import { format, isToday  } from 'date-fns'
+import { format, formatDuration } from 'date-fns'
 import { TimeSpent } from './timeSpent.type'
 import TimeSpentResource from './timeSpentResource'
 
-const todayTimes = (times: TimeSpent[]) => {
-  return times.filter(time => isToday(new Date(time.startedAt!)))
+type TimeSpentListProps = {
+  openTime?: TimeSpent | null,
 }
 
-function TimeSpentList() {
+const TimeSpentList: React.FC<TimeSpentListProps> = ({
+  openTime
+}) => {
   const api = new TimeSpentResource()
   const [times, setTimes] = useState<TimeSpent[]>([])
+  const [total, setTotal] = useState<number>(0)
 
   useEffect(() => {
-    api.getTimeSpents().then(data => setTimes(todayTimes(data)))
-  }, [])
+    api.getTodayTimeSpent().then(data => {
+      setTimes(data.items)
+      setTotal(data.duration)
+    })
+  }, [openTime])
 
   return (
     <div className='text-2xl mt-10'>
+      <ul>
       {times.map((time,index) =>
         <li key={index}>
           {format(new Date(time.startedAt!), 'HH:mm')}
@@ -27,6 +34,8 @@ function TimeSpentList() {
           }
         </li>
       )}
+      </ul>
+      <div>Time spent today: { formatDuration({ minutes: total }) }</div>
     </div>
   )
 }

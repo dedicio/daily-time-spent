@@ -9,6 +9,16 @@ import TimeSpentResource from './timeSpent/timeSpentResource'
 
 
 function App() {
+  window.addEventListener('message', (event) => {
+    if (event.origin === 'http://localhost:3000') {
+      return
+    }
+    console.log(event);
+
+  
+    return
+  }, false);
+
   const resource = new TimeSpentResource()
   const [openTime, setOpenTime] = useState<TimeSpent|null>()
   const retrieve = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
@@ -33,7 +43,7 @@ function App() {
           <Button clickAction={retrieve} isStarted={!!openTime} />
         </div>
         <CurrentTime timeStarted={openTime?.startedAt} />
-        <TimeSpentList />
+        <TimeSpentList openTime={openTime} />
       </div>
     </div>
   )
